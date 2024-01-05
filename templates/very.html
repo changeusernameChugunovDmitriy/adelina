@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+
+{% endblock %}
+{% block superuser %}{% if user.is_superuser %}<a href="/add_product" class="button7 shift_big">Добавить товар</a>{% endif %}{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Успешное оформление товара
+</body>
+</html>
+
+{% endblock %}

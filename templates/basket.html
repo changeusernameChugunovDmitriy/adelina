@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+
+{% endblock %}
+{% block superuser %}{% if user.is_superuser %}<a href="/add_product" class="button7 shift_big">Добавить товар</a>{% endif %}{% endblock %}
+{% block content %}
+<div class='container'>
+  <div class='window'>
+    <div class='order-info'>
+      <div class='order-info-content'>
+        <h2>Ваша корзина</h2>
+                <div class='line'></div>
+          <div class="mggg">
+          {% for basket_item in basket_items %}
+
+        <table class='order-table'>
+          <tbody>
+            <tr>
+              <td><img src="{{ url_for('static', path=basket_item.photo) }}" class='full-width'></img>
+              </td>
+              <td>
+                <br> <span class='thin'>{{ basket_item.type_name }}</span>
+                <br> {{ basket_item.name }}<br> <span class='thin small'> Количество в корзине: {{ basket_item.basket_int }}<br><br></span>
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                <div class='price'>{{ basket_item.price * basket_item.basket_int }} ₽</div>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+
+         {% endfor %}
+              </div>
+        <div class='line'></div>
+        <div class='total'>
+          <span style='float:left;'>
+            Общая сумма
+          </span>
+          <span style='float:right; text-align:right;'>
+            {{ basket_total_price }} ₽
+          </span>
+        </div>
+
+</div>
+
+</div>
+
+
+
+        <div class='credit-info'>
+          <div class='credit-info-content'>
+            <table class='half-input-table'>
+              <tr><td>Пожалуйста выберите способ оплаты </td><td><div class='dropdown' id='card-dropdown'><div class='dropdown-btn' id='current-card'>Visa</div>
+                <div class='dropdown-select'>
+                <ul>
+                  <li>Master Card</li>
+                  <li>American Express</li>
+                  </ul></div>
+                </div>
+               </td></tr>
+            </table>
+            <img src='https://dl.dropboxusercontent.com/s/ubamyu6mzov5c80/visa_logo%20%281%29.png' height='80' class='credit-card-image' id='credit-card-image'></img>
+            Номер карты
+            <input class='input-field'></input>
+            Имя Фамилия
+            <input class='input-field'></input>
+            <table class='half-input-table'>
+              <tr>
+                <td>Месяц/год
+                  <input class='input-field'></input>
+                </td>
+                <td>CVC
+                  <input class='input-field'></input>
+                </td>
+              </tr>
+            </table>
+            <form action="/checkout/{{ user.id }}" method="post">
+            <button class='pay-btn'>Оплатить</button>
+              </form>
+
+          </div>
+
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/add.css">
+{% endblock %}
+{% block superuser %}
+    {% if user.is_superuser %}
+        <a href="/add_product" class="button7 shift_big">Добавить товар</a>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form action="/edit_product/{{ product.id }}" method="post" enctype="multipart/form-data">
+        <div id="wrap" class="input">
+            <header class="input-header"></header>
+
+            <section class="input-content">
+                <h2>Редактирование товара<span>Алабуга</span></h2>
+                <div class="input-content-wrap">
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Название товара</dt>
+                        <dd class="inputbox-content">
+                            <input type="text" name="name" value="{{ product.name }}" required><br>
+                            <label for="input0"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Тип продукта</dt>
+                        <dd class="inputbox-content">
+                            <select name="type_id" required>
+                                {% for product_type in product_types %}
+                                    <option value="{{ product_type.id }}" {% if product_type.id == product.type_id %}selected{% endif %}>{{ product_type.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </dd>
+                    </dl>
+
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Разновидность товара</dt>
+                        <dd class="inputbox-content">
+                            <select name="variety_id" required>
+                                {% for product_variety in product_varieties %}
+                                    <option value="{{ product_variety.id }}" {% if product_variety.id == product.variety_id %}selected{% endif %}>{{ product_variety.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Производитель товара</dt>
+                        <dd class="inputbox-content">
+                            <input type="text" name="manufacturer" value="{{ product.manufacturer }}" required><br>
+                            <label for="input1"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Характеристики товара</dt>
+                        <dd class="inputbox-content">
+                            <textarea name="characteristics" required>{{ product.characteristics }}</textarea><br>
+                            <label for="input1"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Цена товара</dt>
+                        <dd class="inputbox-content">
+                            <input type="number" name="price" value="{{ product.price }}" required><br>
+                            <label for="input1"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Наличие товара</dt>
+                        <dd class="inputbox-content">
+                            <input type="number" name="availability" value="{{ product.availability }}" required><br>
+                            <label for="input1"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+                    <dl class="inputbox">
+                        <dt class="inputbox-title">Фотография товара</dt>
+                        <dd class="inputbox-content">
+                            <input type="file" name="photo"><br>
+                            <label for="input1"></label>
+                            <span class="underline"></span>
+                        </dd>
+                    </dl>
+
+                    <div class="btns">
+                        <button class="btn btn-confirm" type="submit">Изменить товар</button>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </form>
+{% endblock %}

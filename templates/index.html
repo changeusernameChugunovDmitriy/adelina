@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/index.css">
+
+{% endblock %}
+{% block superuser %}{% if user.is_superuser %}
+<a href="/add_product" class="button8 shift_big">Добавить товар</a>
+{% endif %}{% endblock %}
+{% block content %}
+<h1>Привет</h1>
+<div class="cards-container">
+  {% for post in posts %}
+  <!-- Карточка товара -->
+  <div class="card">
+    <!-- Верхняя часть -->
+    <div class="card__top">
+      <!-- Изображение-ссылка товара -->
+      <a href="#" class="card__image">
+        <img src="{{ url_for('static', path=post.photo) }}" alt="Product Photo">
+      </a>
+      <!-- Скидка на товар -->
+      <div class="card__label">В наличии: {{ post.availability }}</div>
+    </div>
+    <!-- Нижняя часть -->
+    <div class="card__bottom">
+      <!-- Цены на товар (с учетом скидки и без)-->
+      <div class="card__prices">
+        <div class="card__price">{{ post.price }}</div>
+      </div>
+      <!-- Ссылка-название товара -->
+      <div class="bott">
+      {{ post.name }}
+      <p class="p1">Тип: {{ post.type.name }}<br></p>
+      <p>Производитель: {{ post.manufacturer }}</p>
+      <!-- Кнопка добавить в корзину -->
+        </div>
+<a href="{{ url_for('get_product_info', product_id=post.id) }}" class="card__add">Подробнее</a>    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

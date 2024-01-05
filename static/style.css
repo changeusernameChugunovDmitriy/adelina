@@ -1,0 +1,121 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+*{
+    margin: 0px;
+    text-decoration: none;
+}
+
+.shapka{
+    margin-top: 20px;
+    margin-left: 60px;
+}
+.r_nad_shapka{
+    margin-left: 310px;
+}
+
+.black{
+    color: black;
+}
+.nad_shapka{
+    display: flex;
+    margin-left: 60px;
+    margin-bottom: 10px;
+    color: #707f8d;
+}
+
+.shift{
+    margin-left: 25px;
+}
+.wh{
+    width: 160px;
+    height: 40px;
+}
+
+a.button7 {
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 8px;
+  background: rgb(1,9,189);
+  box-shadow: 0 -3px rgb(1,9,189) inset;
+  transition: 0.2s;
+}
+
+.shift_big{
+    margin-left: 80px;
+}
+
+
+
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+    width: 91%;
+    border: 3px solid #0e00cc;
+    /* Убрали строку border-right: none; чтобы добавить правую границу */
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #0e00cc;
+  background: #0e00cc;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+margin-left: 200px;
+  width: 60%;
+  height: 7%;
+  position: absolute;
+  left: 48%;
+  margin-bottom: 10px;
+  transform: translate(-50%, -50%);
+}
+
+.cart {
+    position: absolute;
+    left: 506px;
+    display: flex;
+}
+
+.shift1{
+    margin-left: 10px;
+}
+
+.shift2{
+    margin-left: 15px;
+}
+
+a.button8 {
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  border-radius: 8px;
+  background: rgb(1,9,189);
+  box-shadow: 0 -3px rgb(1,9,189) inset;
+  transition: 0.2s;
+  position: absolute;
+    left: 275px;
+}

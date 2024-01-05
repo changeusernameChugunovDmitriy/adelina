@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/product_info.css">
+{% endblock %}
+
+{% block superuser %}
+    {% if user.is_superuser %}
+        <a href="/add_product" class="button7 shift_big">Добавить товар</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Left Column / Headphones Image -->
+<div class="background-ser">
+    <div class="image-placeholder" style="background-image: url('{{ url_for('static', path= product.photo ) }}');"></div>
+</div>
+
+<!-- Right Column -->
+<div class="right-column">
+    <!-- Product Description -->
+    <div class="product-description">
+        Товар №{{ product.id }}
+        <div class="card__label">В наличии: {{ product.availability }}</div>
+        <h1>{{ product.name }}</h1>
+        {{ product.characteristics }}
+    </div>
+
+    <!-- Product Configuration -->
+    <div class="product-configuration">
+        <!-- Product Color -->
+        <div class="product-color">Тип товара: {{ product.type.name }}
+            <div class="color-choose">Разновидность: {{ product.variety.name }}
+                <div><input id="red" checked="checked" name="color" type="radio" value="red" data-image="red" /> <label for="red"></label></div>
+                <div><input id="blue" name="color" type="radio" value="blue" data-image="blue" /> <label for="blue"></label></div>
+                <div><input id="black" name="color" type="radio" value="black" data-image="black" /> <label for="black"></label></div>
+            </div>
+        </div>
+        <!-- Cable Configuration -->
+        <div class="cable-config">Производитель
+            <div class="cable-choose"><button>{{ product.manufacturer }}</button></div>
+            <a href="https://vk.com/crazyangelo4ek">Помощь</a>
+        </div>
+    </div>
+
+    <!-- Product Pricing -->
+    <div class="product-price">
+    {{ product.price }}₽
+
+        <a href="javascript:void(0);" onclick="addToBasket({{ user.id }}, {{ product.id }})" class="cart-btn">В корзину</a>
+    {% if user.is_superuser %}
+        <a class="cart-btn" href="/edit_product/{{ product.id }}">Изменить</a>
+        <button class="delete-product-btn ca" data-product-id="{{ product.id }}">Удалить</button>
+
+    {% endif %}
+        {% if product.availability <= 0 %}
+
+        <button class="notificationButton cart-btn" data-product-id="{{ product.id }}" data-product-name="{{ product.name }}">Уведомить меня</button>
+        {% endif %}
+</div>
+</div>
+
+
+<script>
+
+    // JavaScript для отправки POST-запроса при нажатии на кнопку "В корзину"
+    async function addToBasket(userId, productId) {
+        const response = await fetch(`/add_to_basket/${userId}/${productId}`, {
+            method: "POST",
+        });
+
+        if (response.ok) {
+            // Обработка успешного добавления товара в корзину
+            alert("Товар успешно добавлен в корзину!");
+            console.log("Product added to basket successfully");
+        } else {
+            // Обработка ошибок при добавлении товара в корзину
+            if (response.status === 400) {
+                alert("Извините, товара в наличии нету.");
+                console.error("Product is out of stock");
+            } else {
+                console.error("Failed to add product to basket");
+            }
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        // Находим все кнопки уведомлений
+        const notificationButtons = document.querySelectorAll(".notificationButton");
+
+        // Добавляем обработчик событий для каждой кнопки
+        notificationButtons.forEach(button => {
+            button.addEventListener("click", async function() {
+                const productId = this.getAttribute("data-product-id");
+                const productName = this.getAttribute("data-product-name");
+
+                // Отправляем запрос на создание уведомления
+                try {
+    const response = await fetch("/notify", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "product_id": productId
+        }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+    } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error}\nDetails: ${errorData.details}`);
+    }
+} catch (error) {
+    console.error("An unexpected error occurred:", error);
+}
+
+                const data = await response.json();
+                alert(data.message);
+            });
+        });
+    });
+
+    // JavaScript для отправки запроса DELETE при нажатии на кнопку "Удалить"
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll(".delete-product-btn");
+
+        if (deleteButtons.length > 0) {
+            deleteButtons.forEach((deleteButton) => {
+                deleteButton.addEventListener("click", async () => {
+                    const productId = deleteButton.dataset.productId;
+                    const response = await fetch(`/delete_product/${productId}`, {
+                        method: "DELETE",
+                    });
+
+                    if (response.ok) {
+                        // Редирект на страницу /index после успешного удаления
+                        window.location.href = "/index";
+                    } else {
+                        // Обработка ошибок при удалении товара
+                        console.error("Failed to delete product");
+                    }
+                });
+            });
+        }
+    });
+</script>
+
+{% endblock %}

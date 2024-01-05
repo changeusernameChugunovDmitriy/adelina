@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='profile.css') }}">
+
+    {% if 'profile' in request.path %}
+        <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    {% endif %}
+{% endblock %}
+{% block superuser %}{% if user.is_superuser %}<a href="/add_product" class="button7 shift_big">Добавить товар</a>{% endif %}{% endblock %}
+<!------ Include the above in your HEAD tag ---------->
+{% block content %}
+
+<div class="container emp-profile black1">
+
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="/static/alabuga.jpg" alt=""/>
+                            <div class="file btn btn-lg btn-primary">
+                                Change Photo
+                                <input type="file" name="file"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{ user.username }}
+                                    </h5>
+                                    <h6>
+                                        {% if user.is_superuser %}
+                                        Администратор
+                                        {% else %}
+                                        Пользователь
+                                        {% endif %}
+                                    </h6>
+                                    <p class="proile-rating">RANKINGS : <span>10/10</span></p>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Подробнее</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Скоро...</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/logout" type="submit" class="profile-edit-btn1" name="btnAddMore" >Выйти</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            <p>WORK LINK</p>
+                            <a href="https://auth.hr.alabuga.ru/auth/realms/Alabuga/protocol/openid-connect/auth?client_id=alb-player&redirect_uri=https%3A%2F%2Fhr.alabuga.ru%2F&state=ee331543-ab1a-4d33-8dd7-1cc932844271&response_mode=fragment&response_type=code&scope=openid&nonce=2f02eae4-12f8-4bbe-8da7-477166d77e92&kc_locale=ru">HR Платформа</a><br/>
+                            <a href="https://vk.com/sezalabuga?ysclid=lq8ot8ykf9588431318">ВК Алабуга</a><br/>
+                            <a href="https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B0%D0%B1%D1%83%D0%B3%D0%B0_(%D0%BE%D1%81%D0%BE%D0%B1%D0%B0%D1%8F_%D1%8D%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%B7%D0%BE%D0%BD%D0%B0)">Википедия Алабуга</a>
+
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>User id</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ user.id }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Никнейм</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ user.username }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Почта</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ user.email }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Номер телефона</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{ user.number }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Роль</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {% if user.is_superuser %}
+                                       <p> Администратор</p>
+                                        {% else %}
+                                       <p> Пользователь</p>
+                                        {% endif %}
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Experience</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Hourly Rate</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>10$/hr</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Total Projects</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>230</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>English Level</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Availability</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>6 months</p>
+                                            </div>
+                                        </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Your Bio</label><br/>
+                                        <p>Your detail description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+{% endblock %}

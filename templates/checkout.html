@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="/static/check.css">
+
+{% endblock %}
+{% block superuser %}{% if user.is_superuser %}<a href="/add_product" class="button7 shift_big">Добавить товар</a>{% endif %}{% endblock %}
+{% block content %}
+<div class="shopping-cart">
+      <!-- Title -->
+      <div class="title">
+        Ваши заказы
+      </div>
+    <div class="ogr">
+{% for order_id, order_info in order_items.items() %}
+
+        {% for item in order_info['items'] %}
+      <!-- Товар #1 -->
+      <div class="item">
+        <div class="buttons">
+          <span class="delete-btn"></span>
+          <span class="like-btn"></span>
+        </div>
+
+        <div class="image">
+          <img class="imgclass" src="{{ url_for('static', path=item['photo']) }}" alt="Product Photo">
+        </div>
+
+        <div class="description">
+          <span>{{ item['product_name'] }}</span>
+          <span>{{ item['type_name'] }}</span>
+          <span>{{ item['manufacturer'] }}</span>
+        </div>
+
+        <div class="quantity">
+            <img src="plus.svg" alt="" />
+          </button>
+            <p>Количество: {{ item['quantity'] }}</p>
+            <img src="minus.svg" alt="" />
+          </button>
+        </div>
+
+        <div class="total-price">{{ item['price'] * item['order_int'] }} ₽</div>
+          <div class="card__label">Статус заказа: {{ item['status'] }}</div>
+          <div class="status-buttons">
+{% if user.is_superuser %}
+              Изменить:
+    <form  method="post" action="{{ url_for('change_status', order_id=item['id'], new_status='В сборке') }}">
+        <button class="ca" type="submit">В сборке</button>
+    </form>
+            <form method="post" action="{{ url_for('change_status', order_id=item['id'], new_status='В пути') }}">
+        <button class="ca" type="submit">В пути</button>
+    </form>
+            <form method="post" action="{{ url_for('change_status', order_id=item['id'], new_status='Доставлен') }}">
+        <button class="ca" type="submit">Доставлен</button>
+    </form>
+              {% endif %}
+    <!-- Add similar forms for other status changes -->
+</div>
+      </div>
+
+
+{% endfor %}
+    {% endfor %}
+
+      </div>
+    <p>Мы рады что вы с нами!</p>
+    </div>
+{% endblock %}

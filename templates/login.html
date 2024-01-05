@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-..." crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="/static/login.css">
+<div class="container">
+  <div class="screen">
+    <div class="screen__content">
+      <form class="login" id="loginForm">
+        <div class="login__field">
+          <i class="login__icon fas fa-user"></i>
+          <input type="text" class="login__input" name="username" placeholder="Почта">
+        </div>
+        <div class="login__field">
+          <i class="login__icon fas fa-lock"></i>
+          <input type="password" class="login__input" name="password" placeholder="Пароль">
+        </div>
+        <button class="button login__submit">
+          <span class="button__text">Авторизация</span>
+          <i class="button__icon fas fa-chevron-right"></i>
+        </button>
+      </form>
+      <div class="social-login">
+        <a href="/register">Регистрация</a>
+        <div class="social-icons">
+          <a href="#" class="social-login__icon fab fa-instagram"></a>
+          <a href="#" class="social-login__icon fab fa-facebook"></a>
+          <a href="#" class="social-login__icon fab fa-twitter"></a>
+        </div>
+      </div>
+    </div>
+    <div class="screen__background">
+      <span class="screen__background__shape screen__background__shape4"></span>
+      <span class="screen__background__shape screen__background__shape3"></span>
+      <span class="screen__background__shape screen__background__shape2"></span>
+      <span class="screen__background__shape screen__background__shape1"></span>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {
+      $('#loginForm').submit(function(event) {
+          event.preventDefault();
+
+          var email = $('[name="username"]').val().trim();
+          var password = $('[name="password"]').val().trim();
+
+          // Добавить проверку на пустые поля
+          if (email === '' || password === '') {
+              alert('Пожалуйста, заполните все поля.');
+              return;
+          }
+
+          // Отправляем данные на сервер через API
+          $.ajax({
+              url: '/auth/jwt/login',
+              type: 'POST',
+              contentType: 'application/x-www-form-urlencoded',
+              data: {
+                  username: email,
+                  password: password
+              },
+              success: function(data) {
+                  console.log('Авторизация успешна', data);
+
+                  // Сохраняем данные пользователя в localStorage
+                  localStorage.setItem('userData', JSON.stringify(data));
+
+                  // Переадресация на страницу профиля
+                  window.location.href = '/profile';
+              },
+              error: function(xhr) {
+                  console.error('Ошибка авторизации', xhr);
+
+                  // Обработка ошибки и вывод сообщения на HTML-страницу
+                  if (xhr.status === 401) {
+                      alert('Неверные учетные данные. Пожалуйста, проверьте ваш логин и пароль.');
+                  } else {
+                      alert('Произошла ошибка при авторизации. Пожалуйста, попробуйте снова.');
+                  }
+              }
+          });
+      });
+  });
+</script>
